@@ -1,0 +1,2 @@
+,hotel_id,name,average_rating,no_of_reviews,address,latitude,longitude,no_of_terrible,no_of_poor,no_of_average,no_of_very_good,no_of_excellent,no_of_terrible_sentiment,no_of_poor_sentiment,no_of_average_sentiment,no_of_very_good_sentiment,no_of_excellent_sentiment,sentiment_rating
+0,618,The Fullerton Hotel Singapore (Staycation Approved),4.77,445,"1 Fullerton Square, Singapore, 049178, Singapore",0,0,0,1,1,16,427,0,11,28,93,313,4.1

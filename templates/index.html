@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <title>Hotel Sentiment Analysis</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">HORSAUI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container pt-5">
+    <div class="row pt-5">
+        <div class="col">
+            <label>Use <a href="https://sg.trip.com/hotels/list?city=73" target="_blank">this link</a> to search for the hotels and paste the link below!</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Hotel url" aria-label="Hotel url"
+                       aria-describedby="hotel-url" id="scrape-url-input">
+                <button type="button" class="btn btn-primary" onclick="sentimentScrape()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <table ID="example" class="table table-striped table-bordered">
+                    <thead>
+                    <tr class="table-dark">
+                        <th scope="col">Hotel Name</th>
+                        <th scope="col">Average Rating</th>
+                        <th scope="col">Number of Reviews</th>
+                        <th scope="col">Average Sentiment Rating</th>
+                        <th scope="col">Dataset</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% if list_of_hotels %}
+                        {% for hotel in list_of_hotels %}
+                            <tr>
+                                <td><a href="/overview/{{ hotel["hotel_id"] }}">{{ hotel["name"] }}</a></td>
+                                <td>{{ '%0.2f'|format(hotel["average_rating"]) }}</td>
+                                <td>{{ hotel["no_of_reviews"] }}</td>
+                                <td>{{ '%0.2f'|format(hotel["sentiment_rating"]) }}</td>
+                                <td>{{ hotel["dataset"] }}</td>
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <a class="btn btn-primary" href="{{ url_for('.download_file') }}">Download as CSV</a>
+        </div>
+    </div>
+    <script>
+        function sentimentScrape() {
+            const urlInput = document.querySelector('#scrape-url-input')
+            console.log(urlInput.value)
+
+            const url = new URL(urlInput.value);
+            const hotelId = url.searchParams.get("hotelId");
+            console.log(hotelId)
+            alert("Please wait for around 30 seconds, you will be directed after the data scraping and sentiment analysis is completed!")
+            fetch("/scraper/create/" + hotelId)
+                .then((response) => {
+                    console.log(response)
+                    window.open("/overview/" + {{ list_of_hotels|length }}, "_self")
+
+                })
+
+
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.12.1/js/dataTables.bootstrap5.min.js"></script>
+    <script src="../static/js/app.js"></script>
+</body>
+</html>

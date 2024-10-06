@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css">
+    <title>Hotel Sentiment Analysis</title>
+
+    <style>
+        .maketaller {
+            height: 10px !important;
+        }
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">HORSAUI</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container pt-5">
+    <!-- Content here -->
+    <div class="row">
+        <div class="col">
+                <div id="carouselExampleIndicators" class="carousel slide w-100 h-100" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0"
+                                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+                                        aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+                                        aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner" style="max-width:900px; max-height:600px !important;">
+                                <div class="carousel-item active">
+                                        <img src="{{ hotel_image[0] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png';">
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="{{ hotel_image[1] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png'">
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="{{ hotel_image[2] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png'">
+                                </div>
+                        </div>
+                        <button class=" carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                        </button>
+                </div>
+        </div>
+        <div class="col">
+                <div id="carouselExampleIndicators2" class="carousel slide w-100 h-100" data-bs-ride="true">
+                        <div class="carousel-indicators">
+                                <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="0"
+                                        class="active" aria-current="true" aria-label="Slide 1"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="1"
+                                        aria-label="Slide 2"></button>
+                                <button type="button" data-bs-target="#carouselExampleIndicators2" data-bs-slide-to="2"
+                                        aria-label="Slide 3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                        <img src="{{ hotel_image2[0] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png';">
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="{{ hotel_image2[1] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png'">
+                                </div>
+                                <div class="carousel-item">
+                                        <img src="{{ hotel_image2[2] }}" class="d-block w-100 h-100" alt="hotel image"
+                                                onerror="this.onerror=null;this.src='https://storage.googleapis.com/proudcity/mebanenc/uploads/2021/03/placeholder-image-300x225.png'">
+                                </div>
+                        </div>
+                        <button class=" carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators2"
+                                data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators2"
+                                data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                        </button>
+                </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1">{{ hotel["name"] }}</h1>
+
+        </div>
+        <div class="col">
+            <h1 class="display-1">{{ hotel2["name"] }}</h1>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+                <a class="text-uppercase font-weight-bold"
+                   href="https://www.google.com/maps/search/?api=1&query={{ hotel["name"] }}">{{ hotel["address"] }}</a><br/>
+            <h1>Average Rating: {{ '%0.2f'|format(hotel["average_rating"]) }}</h1>
+            <h1>Sentiment Rating: {{ '%0.2f'|format(hotel["sentiment_rating"]) }}</h1>
+        </div>
+        <div class="col">
+                <a class="text-uppercase font-weight-bold"
+                   href="https://www.google.com/maps/search/?api=1&query={{ hotel2["name"] }}">{{ hotel2["address"] }}</a><br/>
+            <h1>Average Rating: {{ '%0.2f'|format(hotel2["average_rating"]) }}</h1>
+            <h1>Sentiment Rating: {{ '%0.2f'|format(hotel2["sentiment_rating"]) }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1 d-flex justify-content-center">Rating score</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <img
+                    class="img-fluid mx-auto d-block"
+                    src="{{ url_for('static', filename='images/horizontalBar.png') }}"
+                    alt="hotel image"
+            />
+        </div>
+        <div class="col">
+            <img
+                    class="img-fluid mx-auto d-block"
+                    src="{{ url_for('static', filename='images/compareHorizontalBar.png') }}"
+                    alt="hotel image"
+            />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-1 d-flex justify-content-center">Amenity Score</h1>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-4">Good</h1>
+            <hr class="bg-success border-2 border-top border-success maketaller">
+            {% if good_list %}
+                <ul class="list-group">
+                    {% for item in good_list %}
+                        {% for value in item %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <label for="feature" class="col-sm-4">{{ value }}</label>
+                                    <div class="col-sm-5 float-right">
+                                        {% if item[value][0] == 0 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 0.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 1 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 1.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 2 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 2.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 3 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 3.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 4 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+
+                                        {% elif item[value][0] == 4.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% else %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-1 float-right">
+                                        <img
+                                                src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                width="24" height="24" alt="Bootstrap"
+                                        />
+                                    </div>
+                                    <div class="col-sm-2 float-right">
+                                        <p>{{ item[value][1] }}</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No data.</p>
+            {% endif %}
+
+        </div>
+        <div class="col">
+            <h1 class="display-4">Good</h1>
+            <hr class="bg-success border-2 border-top border-success maketaller">
+            {% if good_list2 %}
+                <ul class="list-group">
+                    {% for item in good_list2 %}
+                        {% for value in item %}
+                            <li class="list-group-item">
+                                <div class="row">
+                                    <label for="feature" class="col-sm-4">{{ value }}</label>
+                                    <div class="col-sm-5 float-right">
+                                        {% if item[value][0] == 0 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 0.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 1 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 1.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 2 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 2.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 3 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 3.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% elif item[value][0] == 4 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+
+                                        {% elif item[value][0] == 4.5 %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% else %}
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                            <img
+                                                    src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-sm-1 float-right">
+                                        <img
+                                                src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                width="24" height="24" alt="Bootstrap"
+                                        />
+                                    </div>
+                                    <div class="col-sm-2 float-right">
+                                        <p>{{ item[value][1] }}</p>
+                                    </div>
+                                </div>
+
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>No data.</p>
+            {% endif %}
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">OK</h1>
+                <hr class="bg-warning border-2 border-top border-warning maketaller">
+                {% if average_list %}
+                    <ul class="list-group">
+                        {% for item in average_list %}
+                            {% for value in item %}
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label for="feature" class="col-sm-4">{{ value }}</label>
+                                        <div class="col-sm-5 float-right">
+                                            {% if item[value][0] == 0 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 0.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 4 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+
+                                            {% elif item[value][0] == 4.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% else %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-1 float-right">
+                                            <img
+                                                    src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        </div>
+                                        <div class="col-sm-2 float-right">
+                                            <p>{{ item[value][1] }}</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No data.</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <h1 class="display-4">OK</h1>
+                <hr class="bg-warning border-2 border-top border-warning maketaller">
+                {% if average_list2 %}
+                    <ul class="list-group">
+                        {% for item in average_list2 %}
+                            {% for value in item %}
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label for="feature" class="col-sm-4">{{ value }}</label>
+                                        <div class="col-sm-5 float-right">
+                                            {% if item[value][0] == 0 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 0.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 4 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+
+                                            {% elif item[value][0] == 4.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% else %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-1 float-right">
+                                            <img
+                                                    src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        </div>
+                                        <div class="col-sm-2 float-right">
+                                            <p>{{ item[value][1] }}</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No data.</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-4">Bad</h1>
+                <hr class="bg-danger border-2 border-top border-danger maketaller">
+                {% if bad_list %}
+                    <ul class="list-group">
+                        {% for item in bad_list %}
+                            {% for value in item %}
+                                <li class="list-group-item">
+                                    <div class="row">
+                                        <label for="feature" class="col-sm-4">{{ value }}</label>
+                                        <div class="col-sm-5 float-right">
+                                            {% if item[value][0] == 0 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 0.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 1.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 2.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 3.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% elif item[value][0] == 4 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+
+                                            {% elif item[value][0] == 4.5 %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% else %}
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                                <img
+                                                        src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-sm-1 float-right">
+                                            <img
+                                                    src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                    width="24" height="24" alt="Bootstrap"
+                                            />
+                                        </div>
+                                        <div class="col-sm-2 float-right">
+                                            <p>{{ item[value][1] }}</p>
+                                        </div>
+                                    </div>
+
+                                </li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>No data.</p>
+                {% endif %}
+            </div>
+            <div class="col">
+                <div class="col">
+                    <h1 class="display-4">Bad</h1>
+                    <hr class="bg-danger border-2 border-top border-danger maketaller">
+                    {% if bad_list2 %}
+                        <ul class="list-group">
+                            {% for item in bad_list2 %}
+                                {% for value in item %}
+                                    <li class="list-group-item">
+                                        <div class="row">
+                                            <label for="feature" class="col-sm-4">{{ value }}</label>
+                                            <div class="col-sm-5 float-right">
+                                                {% if item[value][0] == 0 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 0.5 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 1 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 1.5 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 2 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 2.5 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 3 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 3.5 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% elif item[value][0] == 4 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+
+                                                {% elif item[value][0] == 4.5 %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-half.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% else %}
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                    <img
+                                                            src="{{ url_for('static', filename='images/star-fill.svg') }}"
+                                                            width="24" height="24" alt="Bootstrap"
+                                                    />
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-sm-1 float-right">
+                                                <img
+                                                        src="{{ url_for('static', filename='images/chat-square-text.svg') }}"
+                                                        width="24" height="24" alt="Bootstrap"
+                                                />
+                                            </div>
+                                            <div class="col-sm-2 float-right">
+                                                <p>{{ item[value][1] }}</p>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No data.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-4">Most used positive words</h1>
+            <hr class="bg-success border-2 border-top border-success maketaller">
+            {% if not noPositiveCloud %}
+                <img
+                        class="img-fluid mx-auto d-block"
+                        src="{{ url_for('static', filename='images/advantagesWordCloud.png') }}"
+                        alt="hotel image"
+                />
+            {% else %}
+                <p>No data</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            <h1 class="display-4">Most used positive words</h1>
+            <hr class="bg-success border-2 border-top border-success maketaller">
+            {% if not noPositiveCloud2 %}
+                <img
+                        class="img-fluid mx-auto d-block"
+                        src="{{ url_for('static', filename='images/compareAdvantagesWordCloud.png') }}"
+                        alt="hotel image"
+                />
+            {% else %}
+                <p>No data</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h1 class="display-4">Most used negative words</h1>
+            <hr class="bg-danger border-2 border-top border-danger maketaller">
+            {% if not noNegativeCloud %}
+                <img
+                        class="img-fluid mx-auto d-block"
+                        src="{{ url_for('static', filename='images/disadvantagesWordCloud.png') }}"
+                        alt="hotel image"
+                />
+            {% else %}
+                <p>No data</p>
+            {% endif %}
+        </div>
+        <div class="col">
+            <h1 class="display-4">Most used negative words</h1>
+            <hr class="bg-danger border-2 border-top border-danger maketaller">
+            {% if not noNegativeCloud %}
+                <img
+                        class="img-fluid mx-auto d-block"
+                        src="{{ url_for('static', filename='images/compareDisadvantagesWordCloud.png') }}"
+                        alt="hotel image"
+                />
+            {% else %}
+                <p>No data</p>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+</div>
+<br/>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+
+</body>
+</html>
